@@ -303,6 +303,8 @@ class FieldtypeCroppableImage extends FieldtypeImage implements ConfigurableModu
             }
         }
 
+
+
         // loop through to find the one we're looking for
         foreach($imageFields as $imageField) {
 
@@ -310,12 +312,27 @@ class FieldtypeCroppableImage extends FieldtypeImage implements ConfigurableModu
             // because it'll still be an array rather than 1 image
             $pagefiles = $page->getUnformatted($imageField->name);          // TODO: name to lowercase ???
 
+            $pagefilesFirst = $image->pagefiles->first();
+
+
+
             // if the image's pagefiles property matches the one with the
             // field we're looking at, we have a match. save in $field
+            foreach($pagefiles as $pageImageFile) {
+                if($pagefilesFirst === $pageImageFile) {
+
+                $field = $imageField->getInputfield($page);
+                break;
+                }
+            }
+
+            //This is commented out, not working for frontend on dev branch 2.6.15
+            /*
             if ($image->pagefiles === $pagefiles) {
                 $field = $imageField->getInputfield($page);
                 break;
             }
+            */
         }
 
         if ($field) {
