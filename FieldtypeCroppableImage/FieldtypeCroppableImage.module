@@ -242,7 +242,13 @@ class FieldtypeCroppableImage extends FieldtypeImage implements ConfigurableModu
                 if ($width > 0 && $pageimage->width() != $width) $isReady = false;
                 if ($height > 0 && $pageimage->height() != $height) $isReady = false;
             } else {
-                $isReady = ($pageimage->width() == $this->w && $pageimage->height() == $this->h);
+                //if image width or height is 0 then skip $isReady check
+                //TODO: this should be tested well. Might create problems??
+                if( $this->w == 0 OR $this->h == 0 ) {
+                    $isReady = true;
+                } else {
+                    $isReady = ($pageimage->width() == $this->w && $pageimage->height() == $this->h);
+                }
             }
         }
 
